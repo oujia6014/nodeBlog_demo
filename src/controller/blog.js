@@ -28,15 +28,16 @@ const getDetail = (id) => {
 }
 
 const newBlog = (blogData = {}) => {
-  console.error(blogData)
   return {
     id: 3
   }
 }
 
 const updateBlog = (id,blogData = {}) => {
-  console.error('获取的id：', id)
-  console.error('更新的参数：', blogData)
+  return true
+}
+
+const delBlog =  (id) => {
   return true
 }
 
@@ -44,5 +45,6 @@ module.exports = {
   getList,
   getDetail,
   newBlog,
-  updateBlog
+  updateBlog,
+  delBlog
 }
