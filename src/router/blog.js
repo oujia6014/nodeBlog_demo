@@ -7,8 +7,11 @@ const handleBlogRouter = (req, res) => {
   if (method === 'GET' && path === '/api/blog/list') {
     const author = req.query.author || '';
     const keywork = req.query.keywork || '';
-    const data = getList(author, keywork);
-    return data
+    const result = getList(author, keywork);
+    return result.then(listdata =>{
+      console.error(listdata[0].title)
+      return JSON.parse(JSON.stringify(listdata))
+    })
   }
   //获取博客详情
   if (method === 'GET' && path === '/api/blog/detail') {

@@ -1,20 +1,14 @@
+const {exec} = require('../db/mysql')
 const getList = (author, keyword) => {
-  return [
-    {
-      id: 1,
-      title: '标题A',
-      content: '内容A',
-      createTime: Date.now(),
-      author: 'apidog'
-    },
-    {
-      id: 2,
-      title: '标题b',
-      content: '内容b',
-      createTime: Date.now(),
-      author: 'apidog2'
-    }
-  ]
+  let sql = `select *from blogs where 1=1 `
+  if (author) {
+    sql += `and author=${author} `
+  }
+  if (keyword) {
+    sql += `and title like '%${author}%' `
+  }
+  sql += `order by createtime desc;`
+  return exec(sql)
 }
 
 const getDetail = (id) => {
@@ -33,11 +27,11 @@ const newBlog = (blogData = {}) => {
   }
 }
 
-const updateBlog = (id,blogData = {}) => {
+const updateBlog = (id, blogData = {}) => {
   return true
 }
 
-const delBlog =  (id) => {
+const delBlog = (id) => {
   return true
 }
 
