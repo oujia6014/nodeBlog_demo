@@ -9,7 +9,6 @@ const handleBlogRouter = (req, res) => {
     const keywork = req.query.keywork || '';
     const result = getList(author, keywork);
     return result.then(listdata =>{
-      console.error(listdata[0].title)
       return JSON.parse(JSON.stringify(listdata))
     })
   }
