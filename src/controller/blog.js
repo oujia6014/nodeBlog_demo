@@ -12,27 +12,57 @@ const getList = (author, keyword) => {
 }
 
 const getDetail = (id) => {
-  return [{
-    id: 1,
-    title: 'detail',
-    content: 'detail',
-    createTime: Date.now(),
-    author: 'detail'
-  }]
+  const sql = `select * from blogs where id ='${id}' `
+  return exec(sql).then(rows =>{ //返回是数组，处理成返回对象
+    return rows[0]
+  })
 }
 
 const newBlog = (blogData = {}) => {
-  return {
-    id: 3
-  }
+
+  const title = blogData.title
+  const content = blogData.content
+  const author = blogData.author
+  const createTime = Date.now()
+
+  const sql = `
+    insert into blogs (title, content, createtime, author) values ('${title}', '${content}', '${createTime}' ,'${author}');
+    `
+  console.error(sql)
+  return exec(sql).then(inserDatta =>{
+    return {
+      id: inserDatta.insertId
+    }
+  })
 }
 
 const updateBlog = (id, blogData = {}) => {
-  return true
+
+  const title = blogData.title
+  const content = blogData.content
+
+  const sql = `
+    update blogs set title='${title}', content='${content}' where id='${id}';
+    `
+  // console.error(sql)
+  return exec(sql).then(updateDatta =>{
+    if(updateDatta.affectedRows > 0){
+      return true
+    }
+    return false
+  })
+  // return true
 }
 
-const delBlog = (id) => {
-  return true
+const delBlog = (id,author) => {
+  const sql = `delete from blogs where id='${id}' and author='${author}';`
+  console.error(sql)
+  return exec(sql).then(delDatta =>{
+    if(delDatta.affectedRows > 0){
+      return true
+    }
+    return false
+  })
 }
 
 module.exports = {
