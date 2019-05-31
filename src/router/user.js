@@ -27,19 +27,43 @@ const handleUserRouter = (req, res) => {
   //   })
   // }
 
-  //get登录
+  //get登录 cookiie
+  // if (method === 'GET' && path === '/api/user/login') {
+  //   const {username, passwork} = req.query
+  //   const result = loginCheck(username, passwork)
+  //   return result.then((data) => {
+  //     if(data.username){
+  //       data.state='登录成功:'+data.username;
+  //       res.setHeader('Set-Cookie',`username=${data.username}; path=/; httpOnly; expires=${getCookieExpires()}`)//httpOnly 不允许前端改
+  //       return data
+  //     }else {
+  //       return '登录失败'
+  //     }
+  //   })
+  // }
+
+  // get登录 session
   if (method === 'GET' && path === '/api/user/login') {
     const {username, passwork} = req.query
     const result = loginCheck(username, passwork)
     return result.then((data) => {
       if(data.username){
+        req.session.username = data.username;
+        req.session.realname = data.realname;
+        console.error('session: ',req.session)
         data.state='登录成功:'+data.username;
-        res.setHeader('Set-Cookie',`username=${data.username}; path=/; httpOnly; expires=${getCookieExpires()}`)//httpOnly 不允许前端改
         return data
       }else {
         return '登录失败'
       }
     })
+  }
+
+  if (method === 'GET' && path === '/api/user/session') {
+    if(req.session.username){
+      return  Promise.resolve('已有session登录成功'+req.session.username)
+    }
+    return  Promise.resolve('尚未登录')
   }
 
 
